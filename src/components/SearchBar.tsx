@@ -64,7 +64,7 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
     return (
         <Command
             ref={commandRef}
-            className="relative rounded-lg border max-w-lg z-50 overflow-visible"
+            className="relative bg-white dark:bg-[#313131] rounded-lg border max-w-lg z-50 overflow-visible"
         >
             <CommandInput
                 isLoading={isFetching}
@@ -78,7 +78,7 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
             />
 
             {input.length > 0 && (
-                <CommandList className="absolute bg-white top-full inset-x-0 shadow rounded-b-md">
+                <CommandList className="absolute bg-white dark:bg-[#313131] top-full inset-x-0 shadow rounded-b-md">
                     {isFetched && (
                         <CommandEmpty>No results found.</CommandEmpty>
                     )}
@@ -86,8 +86,8 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
                         <CommandGroup heading="Communities">
                             {queryResults?.map((zone) => (
                                 <CommandItem
-                                    onSelect={(e) => {
-                                        router.push(`/z/${e}`);
+                                    onSelect={() => {
+                                        router.push(`/z/${zone.name}`);
                                         router.refresh();
                                     }}
                                     key={zone.id}

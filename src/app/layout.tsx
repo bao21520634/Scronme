@@ -5,6 +5,7 @@ import Providers from '@/components/Providers';
 import { Toaster } from '@/components/ui/Toaster';
 
 import '@/styles/globals.css';
+import { ThemeProvider } from '@/components/providers/theme-provider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -23,19 +24,23 @@ export default function RootLayout({
     return (
         <html
             lang="en"
-            className={cn(
-                'bg-white text-slate-900 antialiased light',
-                inter.className,
-            )}
+            className={cn('text-slate-900 antialiased', inter.className)}
         >
-            <body className="min-h-screen pt-12 bg-slate-50 antialiased">
+            <body className="min-h-screen pt-12 antialiased bg-white dark:bg-[#1d1d1d]">
                 <Providers>
                     {/* @ts-expect-error Server Component */}
                     <Navbar />
                     {authModal}
 
                     <div className="container max-w-7xl mx-auto h-full pt-12">
-                        {children}
+                        <ThemeProvider
+                            attribute="class"
+                            defaultTheme="light"
+                            enableSystem
+                            storageKey="scronme-theme"
+                        >
+                            {children}
+                        </ThemeProvider>
                     </div>
                 </Providers>
                 <Toaster />

@@ -1,6 +1,12 @@
 -- CreateEnum
 CREATE TYPE "VoteType" AS ENUM ('UP', 'DOWN');
 
+-- CreateEnum
+CREATE TYPE "MemberRole" AS ENUM ('ADMIN', 'MODERATOR', 'GUEST');
+
+-- CreateEnum
+CREATE TYPE "ChannelType" AS ENUM ('TEXT', 'AUDIO', 'VIDEO');
+
 -- CreateTable
 CREATE TABLE "Account" (
     "id" TEXT NOT NULL,
@@ -37,6 +43,8 @@ CREATE TABLE "User" (
     "emailVerified" TIMESTAMP(3),
     "username" TEXT,
     "image" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
@@ -54,10 +62,25 @@ CREATE TABLE "Zone" (
 
 -- CreateTable
 CREATE TABLE "Subscription" (
+    "role" "MemberRole" NOT NULL DEFAULT 'GUEST',
     "userId" TEXT NOT NULL,
     "zoneId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Subscription_pkey" PRIMARY KEY ("userId","zoneId")
+);
+
+-- CreateTable
+CREATE TABLE "Channel" (
+    "name" TEXT NOT NULL,
+    "type" "ChannelType" NOT NULL DEFAULT 'TEXT',
+    "userId" TEXT NOT NULL,
+    "zoneId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Channel_pkey" PRIMARY KEY ("userId","zoneId")
 );
 
 -- CreateTable
@@ -136,6 +159,12 @@ ALTER TABLE "Subscription" ADD CONSTRAINT "Subscription_userId_fkey" FOREIGN KEY
 
 -- AddForeignKey
 ALTER TABLE "Subscription" ADD CONSTRAINT "Subscription_zoneId_fkey" FOREIGN KEY ("zoneId") REFERENCES "Zone"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Channel" ADD CONSTRAINT "Channel_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Channel" ADD CONSTRAINT "Channel_zoneId_fkey" FOREIGN KEY ("zoneId") REFERENCES "Zone"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Post" ADD CONSTRAINT "Post_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

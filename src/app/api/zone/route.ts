@@ -17,7 +17,10 @@ export async function POST(req: Request) {
         // check if zone already exists
         const zoneExists = await db.zone.findFirst({
             where: {
-                name,
+                name: {
+                    contains: name,
+                    mode: 'insensitive',
+                },
             },
         });
 
@@ -38,6 +41,7 @@ export async function POST(req: Request) {
             data: {
                 userId: session.user.id,
                 zoneId: zone.id,
+                role: 'ADMIN',
             },
         });
 

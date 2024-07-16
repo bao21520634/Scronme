@@ -77,7 +77,7 @@ const Layout = async ({
                                 About z/{zone.name}
                             </p>
                         </div>
-                        <dl className="divide-y divide-gray-100 px-6 py-4 text-sm leading-6 bg-white">
+                        <dl className="divide-y divide-gray-100 px-6 py-4 text-sm leading-6 bg-white dark:bg-black">
                             <div className="flex justify-between gap-x-4 py-3">
                                 <dt className="text-gray-500">Created</dt>
                                 <dd className="text-gray-700">
@@ -110,7 +110,17 @@ const Layout = async ({
                                     zoneId={zone.id}
                                     zoneName={zone.name}
                                 />
-                            ) : null}
+                            ) : (
+                                <Link
+                                    className={buttonVariants({
+                                        variant: 'outline',
+                                        className: 'w-full mb-6',
+                                    })}
+                                    href={`z/${slug}/submit`}
+                                >
+                                    Manage Members
+                                </Link>
+                            )}
                             <Link
                                 className={buttonVariants({
                                     variant: 'outline',
