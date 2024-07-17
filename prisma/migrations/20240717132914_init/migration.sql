@@ -2,7 +2,7 @@
 CREATE TYPE "VoteType" AS ENUM ('UP', 'DOWN');
 
 -- CreateEnum
-CREATE TYPE "MemberRole" AS ENUM ('ADMIN', 'MODERATOR', 'GUEST');
+CREATE TYPE "MemberRole" AS ENUM ('ADMIN', 'MODERATOR', 'GUEST', 'BANNED');
 
 -- CreateEnum
 CREATE TYPE "ChannelType" AS ENUM ('TEXT', 'AUDIO', 'VIDEO');
@@ -43,6 +43,7 @@ CREATE TABLE "User" (
     "emailVerified" TIMESTAMP(3),
     "username" TEXT,
     "image" TEXT,
+    "zoneId" TEXT[],
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 

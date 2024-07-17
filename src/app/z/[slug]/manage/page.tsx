@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { Avatar } from '@/components/ui/Avatar';
 import { capitalize } from '@/lib/utils';
+import { useMutation } from '@tanstack/react-query';
 import {
     SlidersHorizontalIcon,
     BanIcon,
