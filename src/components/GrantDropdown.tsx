@@ -23,7 +23,7 @@ import { useMutation } from '@tanstack/react-query';
 import { GrantZoneAccessPayload } from '@/lib/validators/zone';
 import axios from 'axios';
 import { toast } from '@/hooks/use-toast';
-import { startTransition, useEffect } from 'react';
+import { startTransition } from 'react';
 import { useRouter } from 'next/navigation';
 
 const GrantDropdown = ({ isCreator = false, zoneId, user, member }: any) => {

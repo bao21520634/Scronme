@@ -9,7 +9,7 @@ export async function GET(req: Request) {
     const results = await db.zone.findMany({
         where: {
             name: {
-                startsWith: q,
+                contains: q,
                 mode: 'insensitive',
             },
         },

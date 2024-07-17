@@ -24,6 +24,9 @@ const page = async ({ params }: pageProps) => {
                 id: session?.user.id,
             },
         },
+        include: {
+            user: true,
+        },
     });
 
     const zone = await db.zone.findFirst({
@@ -34,17 +37,22 @@ const page = async ({ params }: pageProps) => {
 
     if (!zone || user?.role === 'GUEST' || !user) return notFound();
 
-    const subscriptions = await db.subscription.findMany({
-        where: {
-            zone: {
-                name: params.slug,
-            },
-        },
-        include: {
-            user: true,
-        },
-        orderBy: { role: 'asc' },
-    });
+    const subscriptions = session?.user
+        ? await db.subscription.findMany({
+              include: {
+                  user: true,
+              },
+              where: {
+                  zone: {
+                      name: params.slug,
+                  },
+                  user: {
+                      id: { notIn: [session?.user.id] },
+                  },
+              },
+              orderBy: { role: 'asc' },
+          })
+        : null;
 
     return (
         <div className="flex flex-col items-start gap-6">
@@ -59,7 +67,8 @@ const page = async ({ params }: pageProps) => {
                     </p>
                 </div>
             </div>
-            {subscriptions?.length && (
+
+            {subscriptions?.length && subscriptions?.length > 0 ? (
                 <div className="min-w-full">
                     {subscriptions?.map((sub, index) => {
                         return (
@@ -106,6 +115,8 @@ const page = async ({ params }: pageProps) => {
                         );
                     })}
                 </div>
+            ) : (
+                <></>
             )}
         </div>
     );
