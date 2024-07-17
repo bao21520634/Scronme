@@ -92,6 +92,7 @@ const SubscribeLeaveToggle = ({
             className="w-full mt-1 mb-4"
             isLoading={isUnsubLoading}
             onClick={() => unsubscribe()}
+            variant="subtle"
         >
             Leave community
         </Button>

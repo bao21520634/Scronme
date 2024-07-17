@@ -25,6 +25,7 @@ export default function RootLayout({
         <html
             lang="en"
             className={cn('text-slate-900 antialiased', inter.className)}
+            suppressHydrationWarning
         >
             <body className="min-h-screen pt-12 antialiased bg-white dark:bg-[#1d1d1d]">
                 <Providers>

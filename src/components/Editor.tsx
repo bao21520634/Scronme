@@ -183,7 +183,7 @@ export const Editor: React.FC<EditorProps> = ({ zoneId }) => {
     const { ref: titleRef, ...rest } = register('title');
 
     return (
-        <div className="w-full p-4 bg-zinc-50 rounded-lg border border-zinc-200">
+        <div className="w-full p-4 bg-zinc-50 dark:bg-neutral-800 rounded-lg border border-zinc-200">
             <form
                 id="zone-post-form"
                 className="w-fit"
@@ -204,7 +204,7 @@ export const Editor: React.FC<EditorProps> = ({ zoneId }) => {
                     <p className="text-sm text-gray-500">
                         Use{' '}
                         <kbd className="rounded-md border bg-muted px-1 text-xs uppercase">
-                            Tab
+                            /
                         </kbd>{' '}
                         to open the command menu.
                     </p>

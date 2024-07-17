@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
+import { capitalize } from '@/lib/utils';
 
 import { Button } from '@/components/ui/Button';
 import { Label } from '@/components/ui/Label';
@@ -24,10 +25,6 @@ import {
 export function ModeToggle() {
     const { theme, setTheme } = useTheme();
 
-    const capitalize = (str: any) => {
-        return str.charAt(0).toUpperCase() + str.slice(1);
-    };
-
     return (
         <Card>
             <CardHeader>
@@ -46,7 +43,7 @@ export function ModeToggle() {
             </CardContent>
 
             <CardFooter>
-                <DropdownMenu>
+                <DropdownMenu modal={false}>
                     <DropdownMenuTrigger asChild>
                         <Button>
                             <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />

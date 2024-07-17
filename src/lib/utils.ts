@@ -54,3 +54,7 @@ export function formatTimeToNow(date: Date): string {
         },
     });
 }
+
+export function capitalize(str: any) {
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}

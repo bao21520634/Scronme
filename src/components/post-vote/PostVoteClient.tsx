@@ -68,7 +68,7 @@ const PostVoteClient = ({
                 if (type === 'UP') setVotesAmt((prev) => prev - 1);
                 else if (type === 'DOWN') setVotesAmt((prev) => prev + 1);
             } else {
-                // User is voting in the opposite direction, so subtract 2
+                // User is voting in the opposite direction
                 setCurrentVote(type);
                 if (type === 'UP')
                     setVotesAmt((prev) => prev + (currentVote ? 2 : 1));
@@ -95,7 +95,7 @@ const PostVoteClient = ({
             </Button>
 
             {/* score */}
-            <p className="text-center py-2 font-medium text-sm text-zinc-900">
+            <p className="text-center py-2 font-medium text-sm text-zinc-900 dark:text-white">
                 {votesAmt}
             </p>
 

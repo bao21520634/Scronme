@@ -61,6 +61,10 @@ model User {
   Post        Post[]
   Comment     Comment[]
   CommentVote CommentVote[]
+
+  zoneId      String[]
+
+  bans        Ban[]
   
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
@@ -77,6 +81,8 @@ model Zone {
   creatorId   String?
   Creator     User?          @relation("CreatedBy", fields: [creatorId], references: [id])
   subscribers Subscription[]
+
+  bans        Ban[]
 
   @@index([name])
 }
@@ -95,6 +101,19 @@ model Subscription {
 
   zone   Zone @relation(fields: [zoneId], references: [id])
   zoneId String
+  
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@id([userId, zoneId])
+}
+
+model Ban {
+  zone       Zone     @relation(fields: [zoneId], references: [id])
+  zoneId     String 
+
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String
   
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt

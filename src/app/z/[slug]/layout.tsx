@@ -80,7 +80,7 @@ const Layout = async ({
                         <dl className="divide-y divide-gray-100 px-6 py-4 text-sm leading-6 bg-white dark:bg-black">
                             <div className="flex justify-between gap-x-4 py-3">
                                 <dt className="text-gray-500">Created</dt>
-                                <dd className="text-gray-700">
+                                <dd className="text-gray-500">
                                     <time
                                         dateTime={zone.createdAt.toDateString()}
                                     >
@@ -91,45 +91,45 @@ const Layout = async ({
                             <div className="flex justify-between gap-x-4 py-3">
                                 <dt className="text-gray-500">Members</dt>
                                 <dd className="flex items-start gap-x-2">
-                                    <div className="text-gray-900">
+                                    <div className="text-gray-500">
                                         {memberCount}
                                     </div>
                                 </dd>
                             </div>
-                            {zone.creatorId === session?.user?.id ? (
+                            {zone.creatorId === session?.user?.id && (
                                 <div className="flex justify-between gap-x-4 py-3">
                                     <dt className="text-gray-500">
                                         You created this community
                                     </dt>
                                 </div>
-                            ) : null}
+                            )}
 
-                            {zone.creatorId !== session?.user?.id ? (
-                                <SubscribeLeaveToggle
-                                    isSubscribed={isSubscribed}
-                                    zoneId={zone.id}
-                                    zoneName={zone.name}
-                                />
-                            ) : (
+                            {subscription?.role !== 'GUEST' && (
                                 <Link
                                     className={buttonVariants({
-                                        variant: 'outline',
-                                        className: 'w-full mb-6',
+                                        variant: 'default',
+                                        className: 'w-full mb-2',
                                     })}
-                                    href={`z/${slug}/submit`}
+                                    href={`z/${slug}/manage`}
                                 >
                                     Manage Members
                                 </Link>
                             )}
                             <Link
                                 className={buttonVariants({
-                                    variant: 'outline',
-                                    className: 'w-full mb-6',
+                                    variant: 'default',
+                                    className: 'w-full mb-2',
                                 })}
                                 href={`z/${slug}/submit`}
                             >
                                 Create Post
                             </Link>
+
+                            <SubscribeLeaveToggle
+                                isSubscribed={isSubscribed}
+                                zoneId={zone.id}
+                                zoneName={zone.name}
+                            />
                         </dl>
                     </div>
                 </div>
