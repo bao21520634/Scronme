@@ -18,7 +18,7 @@ export async function POST(req: Request) {
         const subscription = await db.subscription.findFirst({
             where: {
                 zoneId,
-                userId: subscriberId,
+                userId: session?.user.id,
             },
         });
 

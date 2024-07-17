@@ -48,9 +48,9 @@ const Layout = async ({
               },
           });
 
-    const isSubscribed = !!subscription;
-
     if (!zone) return notFound();
+
+    if (subscription?.role === 'BANNED') return notFound();
 
     const memberCount = await db.subscription.count({
         where: {
@@ -104,7 +104,7 @@ const Layout = async ({
                                 </div>
                             )}
 
-                            {subscription?.role !== 'GUEST' && (
+                            {subscription && subscription?.role !== 'GUEST' && (
                                 <Link
                                     className={buttonVariants({
                                         variant: 'default',
@@ -115,18 +115,21 @@ const Layout = async ({
                                     Manage Members
                                 </Link>
                             )}
-                            <Link
-                                className={buttonVariants({
-                                    variant: 'default',
-                                    className: 'w-full mb-2',
-                                })}
-                                href={`z/${slug}/submit`}
-                            >
-                                Create Post
-                            </Link>
+
+                            {subscription && (
+                                <Link
+                                    className={buttonVariants({
+                                        variant: 'default',
+                                        className: 'w-full mb-2',
+                                    })}
+                                    href={`z/${slug}/submit`}
+                                >
+                                    Create Post
+                                </Link>
+                            )}
 
                             <SubscribeLeaveToggle
-                                isSubscribed={isSubscribed}
+                                isSubscribed={!!subscription}
                                 zoneId={zone.id}
                                 zoneName={zone.name}
                             />

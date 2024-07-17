@@ -14,11 +14,10 @@ export async function POST(req: Request) {
         const body = await req.json();
         const { subscriberId, zoneId } = ZoneMemberValidator.parse(body);
 
-        // check if user has already subscribed or not
         const zone = await db.zone.findFirst({
             where: {
                 id: zoneId,
-                creatorId: subscriberId,
+                creatorId: session.user.id,
             },
         });
 

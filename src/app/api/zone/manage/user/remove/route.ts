@@ -15,20 +15,17 @@ export async function POST(req: Request) {
         const { subscriberId, zoneId } = ZoneMemberValidator.parse(body);
 
         // check if user has already subscribed or not
-        const subscriptionExists = await db.subscription.findFirst({
+        const subscription = await db.subscription.findFirst({
             where: {
                 zoneId,
-                userId: subscriberId,
+                userId: session?.user.id,
             },
         });
 
-        if (!subscriptionExists) {
-            return new Response(
-                "You've not been subscribed to this zone, yet.",
-                {
-                    status: 400,
-                },
-            );
+        if (subscription?.role !== 'ADMIN') {
+            return new Response("You'r not Admin", {
+                status: 400,
+            });
         }
 
         // create zone and associate it with the user

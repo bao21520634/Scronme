@@ -3,102 +3,14 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { Avatar } from '@/components/ui/Avatar';
 import { capitalize } from '@/lib/utils';
-import { useMutation } from '@tanstack/react-query';
-import {
-    SlidersHorizontalIcon,
-    BanIcon,
-    XIcon,
-    UserPenIcon,
-} from 'lucide-react';
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuGroup,
-    DropdownMenuItem,
-    DropdownMenuPortal,
-    DropdownMenuSeparator,
-    DropdownMenuSub,
-    DropdownMenuSubContent,
-    DropdownMenuSubTrigger,
-    DropdownMenuTrigger,
-} from '@/components/ui/DropdownMenu';
 import { getAuthSession } from '@/lib/auth';
+import GrantDropdown from '@/components/GrantDropdown';
 
 interface pageProps {
     params: {
         slug: string;
     };
 }
-
-const Options = ({ isCreator = false, user, member }: any) => {
-    return (
-        <DropdownMenu modal={false}>
-            <DropdownMenuTrigger asChild>
-                <button className="hover:bg-zinc-100 dark:hover:bg-zinc-600 p-2 rounded-full">
-                    <SlidersHorizontalIcon className="w-4 h-4" />
-                </button>
-            </DropdownMenuTrigger>
-
-            <DropdownMenuContent align="start">
-                <DropdownMenuGroup>
-                    {(isCreator || user === 'ADMIN') && (
-                        <DropdownMenuSub>
-                            <DropdownMenuSubTrigger className="gap-2">
-                                <UserPenIcon className="w-4 h-4" />
-                                Grant permissions
-                            </DropdownMenuSubTrigger>
-
-                            <DropdownMenuPortal>
-                                <DropdownMenuSubContent>
-                                    {isCreator && (
-                                        <>
-                                            <DropdownMenuItem>
-                                                <span>Set Admin</span>
-                                            </DropdownMenuItem>
-                                            <DropdownMenuItem>
-                                                <span>Remove Admin</span>
-                                            </DropdownMenuItem>
-                                        </>
-                                    )}
-
-                                    <DropdownMenuSeparator />
-
-                                    {(isCreator || user === 'ADMIN') && (
-                                        <>
-                                            <DropdownMenuItem>
-                                                <span>Set Moderator</span>
-                                            </DropdownMenuItem>
-                                            <DropdownMenuItem>
-                                                <span>Remove Moderator</span>
-                                            </DropdownMenuItem>
-                                        </>
-                                    )}
-                                </DropdownMenuSubContent>
-                            </DropdownMenuPortal>
-                        </DropdownMenuSub>
-                    )}
-
-                    <DropdownMenuSeparator />
-
-                    {(isCreator ||
-                        (user === 'ADMIN' && member !== 'ADMIN')) && (
-                        <DropdownMenuItem className="gap-2">
-                            <XIcon className="w-4 h-4" />
-                            Remove user
-                        </DropdownMenuItem>
-                    )}
-                    {(isCreator ||
-                        (user === 'ADMIN' && member !== 'ADMIN')) && (
-                        <DropdownMenuItem className="gap-2 bg-red-700 text-white">
-                            <BanIcon className="w-4 h-4" />
-                            Ban user
-                        </DropdownMenuItem>
-                    )}
-                </DropdownMenuGroup>
-            </DropdownMenuContent>
-        </DropdownMenu>
-    );
-};
 
 const page = async ({ params }: pageProps) => {
     const session = await getAuthSession();
@@ -179,13 +91,14 @@ const page = async ({ params }: pageProps) => {
                                     </div>
                                     {zone.creatorId !== sub.userId &&
                                         session?.user.id !== sub.userId && (
-                                            <Options
+                                            <GrantDropdown
                                                 isCreator={
                                                     zone.creatorId ===
                                                     session?.user.id
                                                 }
-                                                user={user.role}
-                                                member={sub.role}
+                                                zoneId={zone.id}
+                                                user={user}
+                                                member={sub}
                                             />
                                         )}
                                 </div>
